@@ -1,5 +1,6 @@
 # Docker官方镜像
 https://registry.hub.docker.com/r/yipengfei/movie-robot/
+
 手把手教你安装：https://feather-purple-bdd.notion.site/b6c925bf2a9e44548bd4bdeea7d06946
 # 功能
 定时自动从豆瓣电影的想看、在看、看过中获取影音信息，然后去PT站（支持多家站点）自动检索种子，找到最佳资源后按豆瓣电影分类提交到BT下载工具下载。在下载前，会自动检查你的Emby中是否已经存在。
