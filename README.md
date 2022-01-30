@@ -2,6 +2,7 @@
 https://registry.hub.docker.com/r/yipengfei/movie-robot/
 
 手把手教你安装：https://feather-purple-bdd.notion.site/b6c925bf2a9e44548bd4bdeea7d06946
+
 官方telgram大群：[加入智能影音机器人交流群](https://t.me/+shOuvzcee9I4ZDll)
 
 进群有机会获得免费的体验码
