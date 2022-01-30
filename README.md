@@ -5,6 +5,10 @@ https://registry.hub.docker.com/r/yipengfei/movie-robot/
 
 官方telgram大群：[加入智能影音机器人交流群](https://t.me/+shOuvzcee9I4ZDll)
 
+微信群二维码，更新不一定及时
+<img src="https://yee-1254270141.cos.ap-beijing.myqcloud.com/movie_robot/wechatgroup.JPG
+" width="280" height="354" alt="微信群" style="float: left;"/>
+
 进群有机会获得免费的体验码
 # 功能
 定时自动从豆瓣电影的想看、在看、看过中获取影音信息，然后去PT站（支持多家站点）自动检索种子，找到最佳资源后按豆瓣电影分类提交到BT下载工具下载。在下载前，会自动检查你的Emby中是否已经存在。
