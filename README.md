@@ -9,8 +9,9 @@ docker run -itd --restart=always --name=movie-robot -v /volume1/docker_stable/mo
 ```
 -v 中源路径改成你自己的
 --env的激活码也改成你自己的
-
-
+[申请一周体验激活码](【腾讯文档】申请体验激活码
+https://docs.qq.com/form/page/DS3FsQktHcGJ0b2xH)
+这个填好了我会每天晚上睡前发邀到邮箱里
 官方telgram大群：[加入智能影音机器人交流群](https://t.me/+shOuvzcee9I4ZDll)
 
 微信群二维码，更新不一定及时
