@@ -3,6 +3,14 @@ https://registry.hub.docker.com/r/yipengfei/movie-robot/
 
 手把手教你安装：https://feather-purple-bdd.notion.site/b6c925bf2a9e44548bd4bdeea7d06946
 
+# 启动命令
+```
+docker run -itd --restart=always --name=movie-robot -v /volume1/docker_stable/movie-robot:/data --env 'LICENSE_KEY=abc'  yipengfei/movie-robot:latest
+```
+-v 中源路径改成你自己的
+--env的激活码也改成你自己的
+
+
 官方telgram大群：[加入智能影音机器人交流群](https://t.me/+shOuvzcee9I4ZDll)
 
 微信群二维码，更新不一定及时
