@@ -1,0 +1,60 @@
+{
+  "weights": {
+    "name_score": 0.40,
+    "type_score": 0.225,
+    "size_score": 0.15,
+    "upload_score": 0.1,
+    "download_score": 0.05,
+    "subtitle_score": 0.05,
+    "free_score": 0.025
+  },
+  "subtitle_keywords": [
+    "中字",
+    "中文",
+    "简繁",
+    "双语",
+    "中英"
+  ],
+  "name_keywords": [
+    "港版原盘",
+    "台版原盘"
+  ],
+  "type_patterns": [
+    {
+      "pattern": "UHD\\s*Blu-?[Rr]ay.*(?:HEVC|REMUX)?",
+      "score": 100
+    },
+    {
+      "pattern": "WEB-?DL.+(?:4[kK]|2160[pP])",
+      "score": 95
+    },
+    {
+      "pattern": "WEB-?DL.+(?:2[Kk]|1080[pP])?",
+      "score": 85
+    },
+    {
+      "pattern": "Blu-?[rR]ay.*(?:REMUX|HEVC)",
+      "score": 95
+    },
+    {
+      "pattern": "(Blu-?[rR]ay|BD)",
+      "score": 90
+    },
+    {
+      "pattern": "(Remux|HD)",
+      "score": 85
+    },
+    {
+      "pattern": "(TrueHD|DTS-?HD)",
+      "score": 90
+    },
+    {
+      "pattern": "(4[Kk]|2160[pP])",
+      "score": 95
+    },
+    {
+      "pattern": "(2[Kk]|1080[Pp])",
+      "score": 80
+    }
+  ]
+}

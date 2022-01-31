@@ -1,0 +1,93 @@
+default:
+  #默认的下载客户端qbittorrent/transmission
+  download_client: 'qbittorrent'
+  rule_dir: '/app/rules'
+emby:
+  api_key: '去emby申请apikey复制到这里'
+  host: '192.168.1.111'
+  https: false
+  port: 8096
+qbittorrent:
+  #如果你的qbit需要登陆，这个地方需要改成true
+  need_login: false
+  #这里要填写qbit的访问地址
+  url: 'http://192.168.1.11:8080/'
+  #need_login为true时需要配置账号密码
+  username: admin
+  password: admin
+transmission:
+  #这里填写transmission的地址即可
+  host: '192.168.1.10'
+  port: 49166
+  username: 'user'
+  password: 'pass'
+pt:
+  #目前支持mteam和hdsky两个pt站，如果你只有一个，就把相关配置项直接删除
+  mteam:
+    #登陆方式cookie/user，建议都使用cookie，不建议使用账号密码的方式；如果type为user，需要提供username、password配置项
+    type: 'cookie'
+    cookie: '可以用chrome浏览器获得访问网站的cookie'
+  hdsky:
+    type: 'cookie'
+    cookie: '可以用chrome浏览器获得访问网站的cookie'
+  tjupt:
+    type: 'cookie'
+    cookie: '可以用chrome浏览器获得访问网站的cookie'
+  hdchina:
+    type: 'cookie'
+    cookie: '可以用chrome浏览器获得访问网站的cookie'
+sources:
+  #目前仅支持douban_wish，这里不需要改动
+  - type: 'douban_wish'
+    args:
+      #true/false 是否自动翻页
+      turn_page: true
+      #wish 想看 do 在看 collect看过
+      types: 'wish;do'
+      #监听的豆瓣用户名id，手机app中点头像-资料与账号，可以看到豆瓣id；可以访问https://movie.douban.com/people/user1/wish 页面看是否正确
+      user_domain: 'user1;'
+      #最近N天加入到你豆瓣想看列表的电影
+      within_days: 365
+tasks:
+  #任务配置，目前支持sync_movies、download_free_torrent
+  - type: 'sync_movies'
+    args:
+      source: 'douban_wish'
+      #设置搜索的pt站，支持多pt同时搜索
+      search_pt: 'mteam;hdsky'
+      #选择最佳种子的规则配置，系统默认提供了collection规则，是清晰度优先
+      score_rule: 'collection'
+      #某资源首个种子过去多久，才进行检索下载；有些资源刚出来质量并不好，等几个小时，发种人变多，才有的选；
+      debut_passed_hours: 6
+      #是否自动删除下载的种子，如果不删除，将保留在你映射的/data目录内
+      delete_torrent: false
+      #注意，只有极少数情况下，豆瓣的电影需要登陆后才可以访问获取，比如https://movie.douban.com/subject/23748525/ 电脑不登陆访问不了；可以留空，等遇到报错再配置；
+      cookie: ''
+      save_mode:
+        - type: 电影
+          cate: 纪录片
+          my_cate: 纪录片
+        - type: 剧集
+          cate: 纪录片
+          my_cate: 纪录片
+        - type: 剧集
+          cate: 动画
+          my_cate: 儿童动画片
+        - cate: 真人秀
+          my_cate: 综艺
+        - cate: 脱口秀
+          my_cate: 综艺
+        - type: 电影
+          my_cate: 电影
+          path: '/downloads/电影'
+        - type: 剧集
+          my_cate: 电视节目
+  - type: 'download_free_torrent'
+    args:
+      #获取免费种子的pt站
+      search_pt: 'mteam;hdsky'
+      #免费种子提交到pt后的保存路径
+      save_path: '/downloads'
+      result_page_limit: 1
+      min_free_hours: 2
+      max_free_hours: 24
