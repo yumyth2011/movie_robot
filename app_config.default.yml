@@ -36,6 +36,9 @@ pt:
   hdchina:
     type: 'cookie'
     cookie: '可以用chrome浏览器获得访问网站的cookie'
+  ssd:
+    type: 'cookie'
+    cookie: '可以用chrome浏览器获得访问网站的cookie'
 sources:
   #目前仅支持douban_wish，这里不需要改动
   - type: 'douban_wish'
