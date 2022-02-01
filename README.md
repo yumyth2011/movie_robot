@@ -31,6 +31,7 @@ docker run -itd --restart=always --name=movie-robot -v /volume1/docker_stable/mo
 # 更新日志
 2022.02.01
 1. 增加支持新站点ssd
+2. **支持Plex媒体服务
 
 2022.01.31
 4. 新增支持hdchina；
