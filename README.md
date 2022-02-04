@@ -62,9 +62,9 @@ docker run -itd --restart=always --name=movie-robot -v /volume1/docker_stable/mo
 笔者开发这个小东西，是为了解决自己的需求顺便分享给大家，笔者有着稳定的工作，也不指望这个赚钱，做了激活体系，是不想让工具大范围传播。也是对当今的网络环境有些不满，大把的人，愿意去花几十几百甚至上万打赏一个主播，也不愿意花几块或者几十块钱支持好用的软件，支持精彩的文章。这种现象让我非常不舒服，所以决定封闭应用，但我会持续更新，github上可以看到未来全部的更新日志。
 
 # 赞赏一下
-<img src="https://raw.githubusercontent.com/pofey/movie_robot/main/pay.png" width="310" height="310" alt="赞赏码" style="float: left;"/>
+<img src="https://yee-1254270141.cos.ap-beijing.myqcloud.com/movie_robot/pay.jpg" width="310" height="310" alt="赞赏码" style="float: left;"/>
 
 # 作者微信
 凭打赏获得激活码
 
-<img src="https://raw.githubusercontent.com/pofey/movie_robot/main/wechat.png" width="338" height="432" alt="微信" style="float: left;"/>
+<img src="https://yee-1254270141.cos.ap-beijing.myqcloud.com/movie_robot/wechat.jpg" width="338" height="432" alt="微信" style="float: left;"/>
