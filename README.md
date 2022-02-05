@@ -34,6 +34,7 @@ docker run -itd --restart=always --name=movie-robot -v /volume1/docker_stable/mo
 6. 优化pt站检索结果，增加种子id的识别；
 7. 优化选种打分逻辑，更客观的打分逻辑；
 8. 优化下载保存模式，增加区域（area）细分匹配项，同时cate和area都支持多个并且匹配模式；
+9. 修复电视剧名称含有‘话’的分集方式可能识别错误的BUG；
 
 2022.02.02
 1. 优化日志输出形式，由以前的stdout调整为可写本地文件以及stdout，日志文件目录在映射的/data目录下
