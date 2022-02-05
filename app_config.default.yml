@@ -10,7 +10,7 @@ notify:
   app:
     bark:
       push_url:
-        - 'https://api.day.app/atrBHsQ5nySYyQjjStBDc4/'
+        - 'https://api.day.app/yourtoken/'
       args:
         sound: 'chime'
         isArchive: 1
