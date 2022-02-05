@@ -1,0 +1,73 @@
+{
+  "weights": {
+    "name_score": 0.40,
+    "type_score": 0.225,
+    "size_score": 0.15,
+    "upload_score": 0.1,
+    "download_score": 0.05,
+    "subtitle_score": 0.05,
+    "free_score": 0.025
+  },
+  "subtitle_keywords": [
+    "中字",
+    "中文",
+    "简繁",
+    "双语",
+    "中英"
+  ],
+  "name_keywords": [],
+  "type_patterns": [
+    {
+      "pattern": "(2160[pP]|4[kK]).*(HEVC|REMUX)",
+      "score": 100
+    },
+    {
+      "pattern": "(HEVC|REMUX).*(2160[pP]|4[kK])",
+      "score": 100
+    },
+    {
+      "pattern": "(2[kK]|1080[pPiI]|1440[pPiI]).*(HEVC|REMUX)",
+      "score": 85
+    },
+    {
+      "pattern": "(HEVC|REMUX).*(2[kK]|1080[pPiI]|1440[pPiI])",
+      "score": 85
+    },
+    {
+      "pattern": "(2160[pP]|4[kK]).*[hHxX]\\.?26[45]",
+      "score": 90
+    },
+    {
+      "pattern": "[hHxX]\\.?26[45].*(2160[pP]|4[kK])",
+      "score": 90
+    },
+    {
+      "pattern": "(2[kK]|1080[pPiI]|1440[pPiI]).*[hHxX]\\.?26[45]",
+      "score": 80
+    },
+    {
+      "pattern": "[hHxX]\\.?26[45].*(2[kK]|1080[pPiI]|1440[pPiI])",
+      "score": 80
+    },
+    {
+      "pattern": "WEB-?DL.*(4[kK]|2160[pP])",
+      "score": 90
+    },
+    {
+      "pattern": "(4[kK]|2160[pP]).*WEB-?DL",
+      "score": 90
+    },
+    {
+      "pattern": "WEB-?DL.*(2[kK]|1080[pPiI]|1440[pPiI])",
+      "score": 85
+    },
+    {
+      "pattern": "(2[kK]|1080[pPiI]|1440[pPiI]).*WEB-?DL",
+      "score": 85
+    },
+    {
+      "pattern": "WEB-?DL",
+      "score": 70
+    }
+  ]
+}

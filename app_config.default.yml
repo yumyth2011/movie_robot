@@ -2,11 +2,29 @@ default:
   #默认的下载客户端qbittorrent/transmission
   download_client: 'qbittorrent'
   rule_dir: '/app/rules'
+  media_server: 'emby'
+notify:
+  title: '电影机器人'
+  movies_message_pattern: '电影${name}(${year})下载完毕'
+  series_message_pattern: '剧集${name}(${year})第${episodes}集下载完毕'
+  app:
+    bark:
+      push_url:
+        - 'https://api.day.app/atrBHsQ5nySYyQjjStBDc4/'
+      args:
+        sound: 'chime'
+        isArchive: 1
+        group: '电影机器人'
+  #default media_server的值为emby时会选择这个配置
 emby:
   api_key: '去emby申请apikey复制到这里'
   host: '192.168.1.111'
   https: false
   port: 8096
+#default media_server的值为plex时会选择这个配置
+plex:
+  url: 'http://你的plex服务地址:32400'
+  token: 'https://support.plex.tv/articles/204059436-finding-an-authentication-token-x-plex-token/ 从这里学习如何获取token'
 qbittorrent:
   #如果你的qbit需要登陆，这个地方需要改成true
   need_login: false
@@ -22,7 +40,7 @@ transmission:
   username: 'user'
   password: 'pass'
 pt:
-  #目前支持mteam和hdsky两个pt站，如果你只有一个，就把相关配置项直接删除
+  #目前支持的站点配置示范都已经列出了，如果你只有一个，就把相关配置项直接删除
   mteam:
     #登陆方式cookie/user，建议都使用cookie，不建议使用账号密码的方式；如果type为user，需要提供username、password配置项
     type: 'cookie'
@@ -51,9 +69,12 @@ sources:
       user_domain: 'user1;'
       #最近N天加入到你豆瓣想看列表的电影
       within_days: 365
+      #注意，只有极少数情况下，豆瓣的电影需要登陆后才可以访问获取，比如https://movie.douban.com/subject/23748525/ 电脑不登陆访问不了；可以留空，等遇到报错再配置；
+      cookie: ''
 tasks:
   #任务配置，目前支持sync_movies、download_free_torrent
   - type: 'sync_movies'
+    cron: '0 0-2,9-23 * * *'
     args:
       source: 'douban_wish'
       #设置搜索的pt站，支持多pt同时搜索
@@ -64,8 +85,6 @@ tasks:
       debut_passed_hours: 6
       #是否自动删除下载的种子，如果不删除，将保留在你映射的/data目录内
       delete_torrent: false
-      #注意，只有极少数情况下，豆瓣的电影需要登陆后才可以访问获取，比如https://movie.douban.com/subject/23748525/ 电脑不登陆访问不了；可以留空，等遇到报错再配置；
-      cookie: ''
       save_mode:
         - type: 电影
           cate: 纪录片
@@ -85,12 +104,8 @@ tasks:
           path: '/downloads/电影'
         - type: 剧集
           my_cate: 电视节目
-  - type: 'download_free_torrent'
+  - type: 'monitor_torrent'
+    cron: '*/1 * * * *'
     args:
-      #获取免费种子的pt站
-      search_pt: 'mteam;hdsky'
-      #免费种子提交到pt后的保存路径
-      save_path: '/downloads'
-      result_page_limit: 1
-      min_free_hours: 2
-      max_free_hours: 24
+      complete_notify:
+        - 'bark'
