@@ -1,0 +1,17 @@
+lxml
+numpy==1.21.5
+pycryptodome==3.13
+requests==2.26.0
+urllib3==1.26.7
+python-qbittorrent==0.4.2
+bencoder==0.2.0
+cn2an==0.5.16
+PyYAML==6.0
+transmission-rpc==3.3.0
+dnspython==2.2.0
+PlexAPI==4.9.1
+APScheduler==3.8.1
+jieba==0.42.1
+tzlocal==2.1
+emoji==1.6.3
+torrent-parser==0.4.0
