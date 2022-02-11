@@ -1,0 +1,27 @@
+app:
+  bark:
+    push_url:
+      - 'https://api.day.app/yourtoken/'
+    params:
+      sound: 'chime'
+      isArchive: 1
+      group: '电影机器人'
+    message_template:
+      movie_completed:
+        title: '电影机器人'
+        message: '电影 ${name}(${year})下载完毕'
+      series_completed:
+        title: '电影机器人'
+        message: '剧集 ${name}(${year})第${episodes}集下载完毕'
+  qywx:
+    touser: '@all'
+    corpid: ''
+    corpsecret: ''
+    agentid: 100001
+    message_template:
+      movie_completed:
+        title: '${name} (${year})'
+        message: '电影 ${name}(${year})下载完毕'
+      series_completed:
+        title: '${name} (${year})'
+        message: '剧集 ${name}(${year})第${episodes}集下载完毕'

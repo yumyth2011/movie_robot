@@ -1,0 +1,8 @@
+manager:
+  #电影管理模式，link为文件创建硬链接模式 copy为复制模式
+  mode: 'link'
+  #值为true或false，是否将目标电影文件夹，按国家名做一次分类；文件结构示范：/video/华语/爱情神话 (2022)/爱情神话 (2022).mkv
+  use_country_folder: false
+tmdb:
+  #获取TMDB apikey的页面，https://www.themoviedb.org/settings/api 页面中的API 密钥
+  api_key: '复制到这里'

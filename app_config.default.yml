@@ -3,18 +3,6 @@ default:
   download_client: 'qbittorrent'
   rule_dir: '/app/rules'
   media_server: 'emby'
-notify:
-  title: '电影机器人'
-  movies_message_pattern: '电影${name}(${year})下载完毕'
-  series_message_pattern: '剧集${name}(${year})第${episodes}集下载完毕'
-  app:
-    bark:
-      push_url:
-        - 'https://api.day.app/yourtoken/'
-      args:
-        sound: 'chime'
-        isArchive: 1
-        group: '电影机器人'
   #default media_server的值为emby时会选择这个配置
 emby:
   api_key: '去emby申请apikey复制到这里'
@@ -70,17 +58,20 @@ sources:
       #最近N天加入到你豆瓣想看列表的电影
       within_days: 365
       #注意，只有极少数情况下，豆瓣的电影需要登陆后才可以访问获取，比如https://movie.douban.com/subject/23748525/ 电脑不登陆访问不了；可以留空，等遇到报错再配置；
+      ##2022.02.06调整 之前豆瓣cookie的位置放错了
       cookie: ''
 tasks:
-  #任务配置，目前支持sync_movies、download_free_torrent
+  #任务配置，每一个- 开头的就是一个任务定义，用不到的自己可以删除
   - type: 'sync_movies'
+    #2022.02.06新增 任务调度周期支持自定义
     cron: '0 0-2,9-23 * * *'
     args:
       source: 'douban_wish'
       #设置搜索的pt站，支持多pt同时搜索
       search_pt: 'mteam;hdsky'
       #选择最佳种子的规则配置，系统默认提供了collection规则，是清晰度优先
-      score_rule: 'collection'
+      ##2022.02.06调整 默认使用全压缩文件选种策略，避开原盘资源
+      score_rule: 'compress'
       #某资源首个种子过去多久，才进行检索下载；有些资源刚出来质量并不好，等几个小时，发种人变多，才有的选；
       debut_passed_hours: 6
       #是否自动删除下载的种子，如果不删除，将保留在你映射的/data目录内
@@ -100,10 +91,22 @@ tasks:
         - cate: 脱口秀
           my_cate: 综艺
         - type: 电影
+          #2022.02.06新增 支持多分类同时匹配设定
+          cate: '剧情,动作'
+          path: '/downloads/电影/动作'
+        - type: 电影
+          #2022.02.06新增 支持区域（豆瓣上的区域）
+          area: 中国大陆
+          path: '/downloads/电影/华语'
+        - type: 电影
           my_cate: 电影
           path: '/downloads/电影'
+          #2022.02.10新增 下载完成后自动识别电影信息并采用硬链接或复制的方式，将种子下载后的文件复制到此目录；使用此功能需要完成movies_config.yml配置
+          #如果设置了这个值，务必要给容器挂载这个目录。同时不管是用my_cate还是path决定保存路径，都要把下载工具下载后保存的路径挂载给容器
+          link_path: '/link/电影'
         - type: 剧集
           my_cate: 电视节目
+  #2022.02.06新增 监控下载工具种子状态的任务。种子完成后，可以发送通知
   - type: 'monitor_torrent'
     cron: '*/1 * * * *'
     args:
