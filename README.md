@@ -2,6 +2,7 @@
 https://registry.hub.docker.com/r/yipengfei/movie-robot/
 
 手把手教你安装：https://feather-purple-bdd.notion.site/b6c925bf2a9e44548bd4bdeea7d06946
+关于机器人智能选择策略的详细说明和思考：https://feather-purple-bdd.notion.site/12f6d44243194c8c96a7e000b9dde023
 
 # 启动命令
 ```
@@ -27,6 +28,10 @@ docker run -itd --restart=always --name=movie-robot -v /volume1/docker_stable/mo
 # 更新日志
 2022.02.17
 1. 重磅更新：任何自己添加到下载器的种子，都可以被机器人监控到，被监控的种子，监控下载完成时，会自动做影视识别和硬链接或复制，同时发送通知；这个功能可以让不喜欢使用豆瓣想看体系的用户，享受机器人的识别整理改名功能；
+2. 机器人的搜索方式，从以前的通过豆瓣上电影名称搜索，改为通过imdbid去pt站搜索。这可以有效避免复杂影视名称搜不到结果的问题，如日漫，和很长的电影名字。同时通过imdbid搜索的方式，也不会对年份做强验证，一些种子名称不规范年份不对而被机器人过滤的问题应该不会存在了。当然如果一个电影没有imdbid，还是会采用电影名去搜索；
+3. 从豆瓣想看的电影下载完做识别和硬链接时，会将豆瓣的电影信息和年份给到识别器，让识别的准去率更高，未来可能还会直接给imdbid；
+4. 升级优化默认的三套选种策略，详细说明：https://feather-purple-bdd.notion.site/12f6d44243194c8c96a7e000b9dde023
+5. 回归老版本启动逻辑，docker容器第一次启动时，默认执行一次任务；
 
 2022.02.15
 1. 修复PT站存在emoji表情时导致搜索失败的BUG；
