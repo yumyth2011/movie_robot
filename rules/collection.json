@@ -1,12 +1,12 @@
 {
   "weights": {
-    "name_score": 0.40,
-    "type_score": 0.225,
-    "size_score": 0.15,
-    "upload_score": 0.1,
+    "name_score": 0.3,
+    "type_score": 0.45,
+    "size_score": 0.1,
+    "upload_score": 0.05,
     "download_score": 0.05,
     "subtitle_score": 0.05,
-    "free_score": 0.025
+    "free_score": 0
   },
   "subtitle_keywords": [
     "中字",
@@ -15,46 +15,39 @@
     "双语",
     "中英"
   ],
-  "name_keywords": [
-    "港版原盘",
-    "台版原盘"
-  ],
+  "name_keywords": [],
   "type_patterns": [
     {
-      "pattern": "UHD\\s*Blu-?[Rr]ay.*(?:HEVC|REMUX)?",
+      "pattern": "(2160[pP]|4[kK]).*REMUX",
       "score": 100
     },
     {
-      "pattern": "WEB-?DL.+(?:4[kK]|2160[pP])",
-      "score": 95
+      "pattern": "REMUX.*(2160[pP]|4[kK])",
+      "score": 100
     },
     {
-      "pattern": "WEB-?DL.+(?:2[Kk]|1080[pP])?",
-      "score": 85
+      "pattern": "(2160[pP]|4[kK]).*Blu-?ray.*(HEVC|AVC)",
+      "score": 70
     },
     {
-      "pattern": "Blu-?[rR]ay.*(?:REMUX|HEVC)",
-      "score": 95
+      "pattern": "Blu-?ray.*(HEVC|AVC).*(2160[pP]|4[kK])",
+      "score": 70
     },
     {
-      "pattern": "(Blu-?[rR]ay|BD)",
-      "score": 90
+      "pattern": "(2[kK]|1080[pPiI]|1440[pPiI]).*REMUX",
+      "score": 60
     },
     {
-      "pattern": "(Remux|HD)",
-      "score": 85
+      "pattern": "REMUX.*(2[kK]|1080[pPiI]|1440[pPiI])",
+      "score": 60
     },
     {
-      "pattern": "(TrueHD|DTS-?HD)",
-      "score": 90
+      "pattern": "(2[kK]|1080[pPiI]|1440[pPiI]).*Blu-?ray.*(HEVC|AVC)",
+      "score": 40
     },
     {
-      "pattern": "(4[Kk]|2160[pP])",
-      "score": 95
-    },
-    {
-      "pattern": "(2[Kk]|1080[Pp])",
-      "score": 80
+      "pattern": "Blu-?ray.*(HEVC|AVC).*(2[kK]|1080[pPiI]|1440[pPiI])",
+      "score": 40
     }
   ]
 }

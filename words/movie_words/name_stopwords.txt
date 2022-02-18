@@ -1,5 +1,7 @@
 WEBDL
 WEB-DL
+720p
+1440p
 1080p
 2160p
 x264

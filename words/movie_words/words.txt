@@ -1,8 +1,13 @@
+CCTV1
+CCTV6
+HBO
 影迷修复版
 衍生节目
 WALL-E
 WEBDL
 WEB-DL
+720p
+1440p
 1080p
 2160p
 x264
@@ -20,3 +25,9 @@ Remux
 MTeam
 CHDWEB
 HEVC
+Nekomoe
+kissaten
+XKsub
+KissSub
+Comicat
+Uncut

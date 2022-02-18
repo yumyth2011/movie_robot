@@ -1,11 +1,11 @@
 {
   "weights": {
     "name_score": 0.3,
-    "type_score": 0.3,
-    "size_score": 0.05,
-    "upload_score": 0.2,
-    "download_score": 0.1,
-    "subtitle_score": 0.05,
+    "type_score": 0.4,
+    "size_score": 0,
+    "upload_score": 0.15,
+    "download_score": 0.15,
+    "subtitle_score": 0.00,
     "free_score": 0
   },
   "subtitle_keywords": [
@@ -21,59 +21,71 @@
   "type_patterns": [
     {
       "pattern": "(2160[pP]|4[kK]).*REMUX",
-      "score": 10
+      "score": 0
     },
     {
       "pattern": "REMUX.*(2160[pP]|4[kK])",
-      "score": 10
+      "score": 0
     },
     {
       "pattern": "(2[kK]|1080[pPiI]|1440[pPiI]).*REMUX",
-      "score": 85
+      "score": 5
     },
     {
       "pattern": "REMUX.*(2[kK]|1080[pPiI]|1440[pPiI])",
-      "score": 85
+      "score": 5
     },
     {
-      "pattern": "(2160[pP]|4[kK]).*[hHxX]\\.?26[45]",
+      "pattern": "(2160[pP]|4[kK]).*[hHxX]\\.?265",
       "score": 60
     },
     {
-      "pattern": "[hHxX]\\.?26[45].*(2160[pP]|4[kK])",
+      "pattern": "[hHxX]\\.?265.*(2160[pP]|4[kK])",
       "score": 60
     },
     {
-      "pattern": "(2[kK]|1080[pPiI]|1440[pPiI]).*[hHxX]\\.?26[45]",
+      "pattern": "(2160[pP]|4[kK]).*[hHxX]\\.?264",
+      "score": 40
+    },
+    {
+      "pattern": "[hHxX]\\.?264.*(2160[pP]|4[kK])",
+      "score": 40
+    },
+    {
+      "pattern": "(2[kK]|1080[pPiI]|1440[pPiI]).*[hHxX]\\.?264",
       "score": 80
     },
     {
-      "pattern": "[hHxX]\\.?26[45].*(2[kK]|1080[pPiI]|1440[pPiI])",
+      "pattern": "[hHxX]\\.?264.*(2[kK]|1080[pPiI]|1440[pPiI])",
       "score": 80
+    },
+    {
+      "pattern": "(2[kK]|1080[pPiI]|1440[pPiI]).*[hHxX]\\.?265",
+      "score": 100
+    },
+    {
+      "pattern": "[hHxX]\\.?265.*(2[kK]|1080[pPiI]|1440[pPiI])",
+      "score": 100
     },
     {
       "pattern": "WEB-?DL.*(4[kK]|2160[pP])",
-      "score": 60
+      "score": 10
     },
     {
       "pattern": "(4[kK]|2160[pP]).*WEB-?DL",
-      "score": 60
+      "score": 10
     },
     {
       "pattern": "WEB-?DL.*(2[kK]|1080[pPiI]|1440[pPiI])",
-      "score": 85
+      "score": 20
     },
     {
       "pattern": "(2[kK]|1080[pPiI]|1440[pPiI]).*WEB-?DL",
-      "score": 85
-    },
-    {
-      "pattern": "WEB-?DL",
-      "score": 70
+      "score": 20
     },
     {
       "pattern": "Blu-?ray.*(HEVC|AVC)",
-      "score": 0
+      "score": -100
     }
   ]
 }
