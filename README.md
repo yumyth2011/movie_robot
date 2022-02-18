@@ -3,6 +3,11 @@ https://registry.hub.docker.com/r/yipengfei/movie-robot/
 
 手把手教你安装：https://feather-purple-bdd.notion.site/b6c925bf2a9e44548bd4bdeea7d06946
 关于机器人智能选择策略的详细说明和思考：https://feather-purple-bdd.notion.site/12f6d44243194c8c96a7e000b9dde023
+# 特别说明
+现在只有两种方式可以获得激活码使用本镜像：
+* 如果你是开发者，可以扩展适配一个pt站点，可以获得激活码一枚。pt站的适配支持，源码中给出了一个示范；
+* 通过打赏作者，可以获得激活码，打赏码在下面，也可以直接访问：https://yee-1254270141.cos.ap-beijing.myqcloud.com/movie_robot/pay.jpg
+* 如果你有其他为项目作出重大贡献的行为，也可以获得激活码。
 
 # 启动命令
 ```
@@ -88,13 +93,6 @@ docker run -itd --restart=always --name=movie-robot -v /volume1/docker_stable/mo
 2. 豆瓣支持cookie登陆，解决极其罕见的电影信息需要登陆获取的问题
 3. 修复hdsky下载数取成正在下载数的BUG；
 4. 修复单个pt站点挂了，导致其他pt站搜索不可用的BUG；
-
-
-# 特别说明
-发现了一些人，拿走代码随便改一下，就二次宣传，所以决定不再开源。
-
-# 为什么有激活码
-笔者开发这个小东西，是为了解决自己的需求顺便分享给大家，笔者有着稳定的工作，也不指望这个赚钱，做了激活体系，是不想让工具大范围传播。也是对当今的网络环境有些不满，大把的人，愿意去花几十几百甚至上万打赏一个主播，也不愿意花几块或者几十块钱支持好用的软件，支持精彩的文章。这种现象让我非常不舒服，所以决定封闭应用，但我会持续更新，github上可以看到未来全部的更新日志。
 
 # 赞赏一下
 <img src="https://yee-1254270141.cos.ap-beijing.myqcloud.com/movie_robot/pay.jpg" width="310" height="310" alt="赞赏码" style="float: left;"/>
