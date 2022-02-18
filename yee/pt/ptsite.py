@@ -2,7 +2,9 @@ from abc import ABCMeta, abstractmethod
 
 from yee.core.torrentmodels import FileTorrent, Torrents
 
-
+"""
+PT站操作类
+"""
 class PTSite(metaclass=ABCMeta):
     def __init__(self, **kwargs):
         kwargs.setdefault('type', 'cookie')

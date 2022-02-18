@@ -12,7 +12,9 @@ from yee.core.stringutils import StringUtils
 from yee.core.torrentmodels import Torrents, FileTorrent
 from yee.pt.ptsite import PTSite
 
-
+"""
+支持新的nexus程序站点，可以直接继承这个实现类
+"""
 class NexusProgramSite(PTSite, metaclass=ABCMeta):
     headers = {
         'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36'

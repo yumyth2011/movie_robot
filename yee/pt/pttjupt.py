@@ -4,19 +4,31 @@ import re
 from urllib.parse import unquote
 
 from yee.core.torrentmodels import Torrents, TorrentType, Torrent
-from yee.movie.movieparser import MovieParser as mp
 from yee.pt.nexusprogramsite import NexusProgramSite
 from yee.pt.ptsiteparser import PTSiteParser
 
 
 class PTtjupt(NexusProgramSite):
     def get_site(self):
+        """
+        返回pt站的网址
+        :return:
+        """
         return 'https://tjupt.org'
 
     def get_site_name(self):
+        """
+        这是pt网站的名称，确保唯一即可，集成到主程序时用作配置项
+        :return:
+        """
         return 'tjupt'
 
     def parse_torrents(self, text: str) -> Torrents:
+        """
+        通过返回的网页代码，解析列表页种子的所有信息
+        :param text:
+        :return:
+        """
         type_list = re.findall(
             r'<td class="rowfollow nowrap".+><a href=".*cat=\d+"><img class=".+" src="pic/cattrans.gif" alt="([^"]+)"\s*(?:title="[^"]+")?\s*style=".+"\s*/></a>(?:<img.+alt="([^"]+)"\s*(?:title=".+"\s*)?/>)?',
             text)
@@ -52,7 +64,8 @@ class PTtjupt(NexusProgramSite):
             t.name = r[0]
             t.subject = r[1]
             t.url = self.get_site() + '/' + r[2]
-            t.movies_release_year = mp.parse_year_by_str_list([t.name, t.subject])
+            # 这里需要去解析种子中的剧集年份，可以留空，集成到主框架时，我可以改这个细节
+            # t.movies_release_year = mp.parse_year_by_str_list([t.name, t.subject])
             t.id = r[3]
             # 匹配种子发布时间、文件大小、大小单位、做种数量,是否红种、下载数量
         for i, r in enumerate(re.findall(
