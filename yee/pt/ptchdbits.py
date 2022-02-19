@@ -58,15 +58,20 @@ class PTChdbits(NexusProgramSite):
                 t.cate = TorrentType.Other.value
             search_result.append(t)
         for i, r in enumerate(re.findall(
-                r'<td class="rowfollow.+".+>.+table class="torrentname".+<b>(.+)</b></a>(?:.*subtitle\'.*</div>&nbsp;(.+?)(?:&nbsp;|<\/font))?.*</td><td width.+<a href="(download.php\?id=(\d+))">',
+                r'<td class="rowfollow.+".+>.+table class="torrentname".+<b>(.+?)(?:<span\s+.*)?</b></a>(?:.*?alt="(Free)".*?限时<span\s+title="(.+?)".*?)?(?:.*subtitle\'.*</div>&nbsp;(.+?)(?:&nbsp;|<\/font))?.*</td><td width.+<a href="(download.php\?id=(\d+))">',
                 text)):
             t = search_result[i]
             t.name = r[0]
-            t.subject = r[1]
-            t.url = self.get_site() + '/' + r[2]
+            if r[2] != '':
+                t.free_deadline = datetime.datetime.strptime(r[2], '%Y-%m-%d %H:%M:%S')
+            else:
+                if r[1] != '':
+                    t.free_deadline = datetime.datetime.max
+            t.subject = r[3]
+            t.url = self.get_site() + '/' + r[4]
             # 这里需要去解析种子中的剧集年份，可以留空，集成到主框架时，我可以改这个细节
             # t.movies_release_year = mp.parse_year_by_str_list([t.name, t.subject])
-            t.id = r[3]
+            t.id = r[5]
             # 匹配种子发布时间、文件大小、大小单位、做种数量,是否红种、下载数量
         for i, r in enumerate(re.findall(
                 r'<td.+><span\s+title="(.+)">.+</span></td><td.+>([0123456789\.]+)<br\s+/>(TB|GB|MB|KB)</td><td.+>(?:<b><a\s+href=".+seeders">)?(?:<font.+>)?([0123456789,]+)(</font>|</span>)?.+\s*.+\s*<td class="rowfollow">(?:<a\s*href="viewsnatches.php[^"]+"><b>)?([0123456789,]+)(?:</b>)?',
