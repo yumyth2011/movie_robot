@@ -31,6 +31,11 @@ docker run -itd --restart=always --name=movie-robot -v /volume1/docker_stable/mo
 - 支持多PT站汇总搜索打分选种
 
 # 更新日志
+2022.02.20
+1. 感谢大佬 miniers 贡献代码，支持了chdbits、keepfrds
+2. 优化手动提交种子任务监测的通知友好性，对自由下载的剧集，识别集数信息；
+3. 硬链接整部剧集是忽略音频文件
+
 2022.02.19
 1. 优化剧集数识别，认识回話，增加几个日漫命名格式。
 2. compress策略将remux分数定义翻倍，绝对碾压其他权重。
