@@ -110,6 +110,4 @@ docker run -itd --restart=always --name=movie-robot -v /volume1/docker_stable/mo
 <img src="https://yee-1254270141.cos.ap-beijing.myqcloud.com/movie_robot/pay.jpg" width="310" height="310" alt="赞赏码" style="float: left;"/>
 
 # 作者微信
-凭打赏获得激活码
-
-<img src="https://yee-1254270141.cos.ap-beijing.myqcloud.com/movie_robot/wechat.jpg" width="338" height="500" alt="微信" style="float: left;"/>
+微信号：yipengfei329
