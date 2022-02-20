@@ -45,6 +45,12 @@ pt:
   ssd:
     type: 'cookie'
     cookie: ''
+  chdbits:
+    type: 'cookie'
+    cookie: ''
+  keepfrds:
+    type: 'cookie'
+    cookie: ''
 sources:
   #目前仅支持douban_wish，这里不需要改动
   - type: 'douban_wish'

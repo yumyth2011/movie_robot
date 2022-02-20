@@ -21,27 +21,27 @@
   "type_patterns": [
     {
       "pattern": "(2160[pP]|4[kK]).*REMUX",
-      "score": 100
+      "score": 200
     },
     {
       "pattern": "REMUX.*(2160[pP]|4[kK])",
-      "score": 100
+      "score": 200
     },
     {
       "pattern": "(2[kK]|1080[pPiI]|1440[pPiI]).*REMUX",
-      "score": 90
+      "score": 100
     },
     {
       "pattern": "REMUX.*(2[kK]|1080[pPiI]|1440[pPiI])",
-      "score": 90
+      "score": 100
     },
     {
       "pattern": "(2160[pP]|4[kK]).*[hHxX]\\.?265",
-      "score": 80
+      "score": 120
     },
     {
       "pattern": "[hHxX]\\.?265.*(2160[pP]|4[kK])",
-      "score": 80
+      "score": 120
     },
     {
       "pattern": "(2160[pP]|4[kK]).*[hHxX]\\.?264",

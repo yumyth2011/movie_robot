@@ -30,7 +30,16 @@ docker run -itd --restart=always --name=movie-robot -v /volume1/docker_stable/mo
 - 对剧集类型的影视资源，如果你正在看一部没更新完的剧，只要pt站更新，也会帮你对比本地影音库缺少的剧集开始自动下载。
 - 支持多PT站汇总搜索打分选种
 
+针对新增下载和存量硬盘的影视库，机器人还可以帮你对乱七八糟下载种子名做标准化整理，整理后会按电影名+年份+tmdbid的方式存储，可以使用硬链接或复制模式的整理方式。
+# 当前支持的站点
+## mteam、hdsky、tjupt、hdchina、ssd、chdbits、keepfrds
+
 # 更新日志
+2022.02.20
+1. 感谢大佬 miniers 贡献代码，支持了chdbits、keepfrds
+2. 优化手动提交种子任务监测的通知友好性，对自由下载的剧集，识别集数信息；
+3. 硬链接整部剧集是忽略音频文件
+
 2022.02.19
 1. 优化剧集数识别，认识回話，增加几个日漫命名格式。
 2. compress策略将remux分数定义翻倍，绝对碾压其他权重。
@@ -103,6 +112,4 @@ docker run -itd --restart=always --name=movie-robot -v /volume1/docker_stable/mo
 <img src="https://yee-1254270141.cos.ap-beijing.myqcloud.com/movie_robot/pay.jpg" width="310" height="310" alt="赞赏码" style="float: left;"/>
 
 # 作者微信
-凭打赏获得激活码
-
-<img src="https://yee-1254270141.cos.ap-beijing.myqcloud.com/movie_robot/wechat.jpg" width="338" height="432" alt="微信" style="float: left;"/>
+微信号：yipengfei329
