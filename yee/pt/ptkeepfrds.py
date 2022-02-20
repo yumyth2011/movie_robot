@@ -87,7 +87,6 @@ class PTKeepfrds(NexusProgramSite):
             else:
                 t.upload_count = int(r[11])
             t.download_count = int(r[12]) if r[12] != '' else 0
-            print(t.to_json())
         return search_result
 
     def parse_download_filename(self, response):
