@@ -64,7 +64,7 @@ class PTKeepfrds(NexusProgramSite):
                 t.cate = TorrentType.Other.value
             search_result.append(t)
         for i, r in enumerate(re.findall(
-                r'<a title="([^"]+)"\s+href=".*?id=(\d+).*?<br />(?:<font.*?>)?([^<]*)(?:.*alt="([^"]*Free)".*title=&quot;(.*?)&quot;.*)?.*?rowfollow nowrap">(.*?)<br\s*/>(.*?)</td>.*?rowfollow">(.*?)<br\s*/>(.*?)</td>(?:.*class="(red)">(\d+).*)?(?:.*seeders">(\d+).*?)?\n?(?:.*viewsnatches.*?<b>(\d+).*?)?',
+                r'<a title="([^"]+)"\s+href=".*?id=(\d+).*?<br />(?:<font.*?>)?([^<]*)(?:.*alt="([^"]*Free)".*title=&quot;(.*?)&quot;.*)?.*?rowfollow nowrap">(?:.*<span (title)=")?([^"]*)(?:">.*</span>)?.*<br\s*/>(.*?)</td>.*?rowfollow">(.*?)<br\s*/>(.*?)</td>(?:.*class="(red)">(\d+).*)?(?:.*seeders">(\d+).*?)?\n?(?:.*viewsnatches.*?<b>(\d+).*?)?',
                 text)):
             t = search_result[i]
             t.subject = r[0]
@@ -79,14 +79,18 @@ class PTKeepfrds(NexusProgramSite):
             # 这里需要去解析种子中的剧集年份，可以留空，集成到主框架时，我可以改这个细节
             # t.movies_release_year = mp.parse_year_by_str_list([t.name, t.subject])
             # 匹配种子发布时间、文件大小、大小单位、做种数量,是否红种、下载数量
-            t.publish_time = datetime.datetime.strptime(r[5] + ' ' + r[6], '%Y-%m-%d %H:%M:%S')
-            t.file_size = PTSiteParser.trans_unit_to_mb(float(r[7]), r[8])
-            if r[9] == 'red':
-                t.red_seed = True
-                t.upload_count = int(r[10])
+            if r[5] == 'title':
+                t.publish_time = datetime.datetime.strptime(r[6], '%Y-%m-%d %H:%M:%S')
             else:
+                t.publish_time = datetime.datetime.strptime(r[6] + ' ' + r[7], '%Y-%m-%d %H:%M:%S')
+            t.file_size = PTSiteParser.trans_unit_to_mb(float(r[8]), r[9])
+            if r[10] == 'red':
+                t.red_seed = True
                 t.upload_count = int(r[11])
-            t.download_count = int(r[12]) if r[12] != '' else 0
+            else:
+                t.upload_count = int(r[12])
+            t.download_count = int(r[13]) if r[13] != '' else 0
+            # print(t.to_json())
         return search_result
 
     def parse_download_filename(self, response):
