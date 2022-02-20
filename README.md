@@ -29,6 +29,8 @@ docker run -itd --restart=always --name=movie-robot -v /volume1/docker_stable/mo
 - 将一部刚上映，或者还没上映的电影加入想看，当PT站更新时会第一时间帮你下好，被Emby扫描到后直接观看。
 - 对剧集类型的影视资源，如果你正在看一部没更新完的剧，只要pt站更新，也会帮你对比本地影音库缺少的剧集开始自动下载。
 - 支持多PT站汇总搜索打分选种
+
+针对新增下载和存量硬盘的影视库，机器人还可以帮你对乱七八糟下载种子名做标准化整理，整理后会按电影名+年份+tmdbid的方式存储，可以使用硬链接或复制模式的整理方式。
 # 当前支持的站点
 ## mteam、hdsky、tjupt、hdchina、ssd、chdbits、keepfrds
 
