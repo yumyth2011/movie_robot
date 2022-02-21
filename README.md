@@ -35,6 +35,10 @@ docker run -itd --restart=always --name=movie-robot -v /volume1/docker_stable/mo
 ## mteam、hdsky、tjupt、hdchina、ssd、chdbits、keepfrds
 
 # 更新日志
+2022.02.21
+1. sqlite操作类加锁，同时优化监控种子任务的错误处理，增强稳定性；
+2. 修复部分emby用户无法局部刷新影视库的BUG；
+
 2022.02.20
 1. 感谢大佬 miniers 贡献代码，支持了chdbits、keepfrds
 2. 优化手动提交种子任务监测的通知友好性，对自由下载的剧集，识别集数信息；
