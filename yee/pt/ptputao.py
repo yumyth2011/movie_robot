@@ -29,15 +29,14 @@ class PTPuTao(NexusProgramSite):
         :param text:
         :return:
         """
-        type_list = re.findall(
-            r'<td class=rowfollow .+ style=.+><span class=.+><a href=".*cat=\d+" title="([^"]+)"><img .+ src=".+" alt="([^"]+)" ></a></span></td>',
-            text)
         search_result = []
-        for type in type_list:
+        for i, r in enumerate(re.findall(
+            r'''(<tr  class='free_bg' >\n)?<td class=rowfollow.*?title="([^"]+)".*?\n.*?<a title="([^"]+)"\s+href="details.php\?id=(\d+).*?(?:<b>\(<font.*?title="([^"]+)">.*</font>\)</b>)?(?:<br />(.*?))?</td>''',
+            text)):
             t = Torrent()
             t.site_name = self.get_site_name()
             t.site = self.get_site()
-            t.primitive_type = type[0]
+            t.primitive_type = r[1]
             if "电影" in t.primitive_type:
                 t.type = TorrentType.Movie
                 t.cate = TorrentType.Movie.value
@@ -56,18 +55,19 @@ class PTPuTao(NexusProgramSite):
             else:
                 t.type = TorrentType.Other
                 t.cate = TorrentType.Other.value
-            search_result.append(t)
-        for i, r in enumerate(re.findall(
-            r'''<a title="([^"]+)"\s+href="details.php\?id=(\d+).*?<br />(.*?)</td>''',
-                text)):
-            t = search_result[i]
-            t.name = r[0]
-            t.id = r[1]
-            t.subject = r[2]
+            t.name = r[2]
+            t.id = r[3]
+            if r[0] != '':
+                if r[4] != '':
+                    t.free_deadline = datetime.datetime.strptime(r[4], '%Y-%m-%d %H:%M:%S')
+                else:
+                    t.free_deadline = datetime.datetime.max
+            t.subject = r[5]
             t.url = self.get_site() + '/download.php?id=' + t.id
             # 这里需要去解析种子中的剧集年份，可以留空，集成到主框架时，我可以改这个细节
             # t.movies_release_year = mp.parse_year_by_str_list([t.name, t.subject])
             # 匹配种子发布时间、文件大小、大小单位、做种数量,是否红种、下载数量
+            search_result.append(t)
         for i, r in enumerate(re.findall(
             r'''<span class='nobr' title='([^']+)'>.*?<td class=rowfollow>([0123456789\.]+)<br/>(TB|GB|MB|KB)</td><td class=rowfollow.*?>(?:<b><a href=.*toseeders=1><font color=>(.+)</font></a></b>)?(?:<span class="red">(.+)</span>)?</td>\n?.*?\n?.*?viewsnatches.*?<b>(.+)</b>''',
                 text)):
