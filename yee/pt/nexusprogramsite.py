@@ -12,9 +12,7 @@ from yee.core.stringutils import StringUtils
 from yee.core.torrentmodels import Torrents, FileTorrent
 from yee.pt.ptsite import PTSite
 
-"""
-支持新的nexus程序站点，可以直接继承这个实现类
-"""
+
 class NexusProgramSite(PTSite, metaclass=ABCMeta):
     headers = {
         'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36'
@@ -34,6 +32,20 @@ class NexusProgramSite(PTSite, metaclass=ABCMeta):
         else:
             return None
 
+    def handle_cf_check(self, res):
+        if res.text.find('data-cf-settings') != -1 and res.text.find('rocket-loader') != -1:
+            match_js_var = re.search(r'window.location=(.+);', res.text)
+            if match_js_var:
+                check_uri = eval(match_js_var.group(1))
+                res = self.req.get(
+                    url=self.get_site() + check_uri,
+                    headers=self.headers,
+                    cookies=self.cookie_jar,
+                    skip_check=True
+                )
+                return res
+        return res
+
     def login_by_cookie(self, cookie: str):
         parsed = urlparse(self.get_site())
         cookie_jar = self.req.cookiestr_to_jar(cookie, parsed.hostname)
@@ -43,12 +55,13 @@ class NexusProgramSite(PTSite, metaclass=ABCMeta):
             cookies=cookie_jar,
             skip_check=True
         )
+        self.cookies = cookie_jar
         if res is None:
             raise RuntimeError('%s登陆失败。' % self.get_site_name())
+        res = self.handle_cf_check(res)
         user = self.match_user(res.text)
         if user is None:
             raise RuntimeError('%s登陆失败。' % self.get_site_name())
-        self.cookies = cookie_jar
         logging.info('%s登陆成功，欢迎回来：%s' % (parsed.hostname, StringUtils.noisestr(user)))
 
     def get_torrent_list(self, url, result_page_limit=5) -> Torrents:
@@ -77,6 +90,7 @@ class NexusProgramSite(PTSite, metaclass=ABCMeta):
             if res is None:
                 break
             self.cookies.update(res.cookies)
+            res = self.handle_cf_check(res)
             text = res.text
             match_page = re.search(r'<a href="(\?[^"]+page=(\d+))"><b(?:\s+title="Alt\+Pagedown")?>下一[頁页]', text)
             page_result = self.parse_torrents(text)
