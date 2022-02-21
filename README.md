@@ -38,6 +38,8 @@ docker run -itd --restart=always --name=movie-robot -v /volume1/docker_stable/mo
 2022.02.21
 1. sqlite操作类加锁，同时优化监控种子任务的错误处理，增强稳定性；
 2. 修复部分emby用户无法局部刷新影视库的BUG；
+3. 修复Emby在Widnows部署时部分情况无法正确识别媒体库的BUG
+4. 新增站点支持btschool、putao
 
 2022.02.20
 1. 感谢大佬 miniers 贡献代码，支持了chdbits、keepfrds
