@@ -35,6 +35,9 @@ docker run -itd --restart=always --name=movie-robot -v /volume1/docker_stable/mo
 ## mteam、hdsky、tjupt、hdchina、ssd、chdbits、keepfrds
 
 # 更新日志
+##如何保持机器人是最新版本
+Docker应用升级指南：https://feather-purple-bdd.notion.site/docker-09e1db16b2b14040840bd2f5660e666c
+
 2022.02.23
 1. 新增豆瓣详细配置，可以根据豆瓣想看的标签，决定选择策略以及对关键字加权，这个关键字可以是字幕组、压制组、站点名（英文跟pt部分配置一样）。可以根据不同的豆瓣id，选择策略；
 2. 新增通知时增加评分显示，来自谁的豆瓣昵称下载；
