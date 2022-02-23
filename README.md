@@ -35,7 +35,7 @@ docker run -itd --restart=always --name=movie-robot -v /volume1/docker_stable/mo
 ## mteam、hdsky、tjupt、hdchina、ssd、chdbits、keepfrds
 
 # 更新日志
-##如何保持机器人是最新版本
+## 如何保持机器人是最新版本
 Docker应用升级指南：https://feather-purple-bdd.notion.site/docker-09e1db16b2b14040840bd2f5660e666c
 
 2022.02.23
