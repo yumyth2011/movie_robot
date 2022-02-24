@@ -35,6 +35,24 @@ docker run -itd --restart=always --name=movie-robot -v /volume1/docker_stable/mo
 ## mteam、hdsky、tjupt、hdchina、ssd、chdbits、keepfrds
 
 # 更新日志
+## 如何保持机器人是最新版本
+Docker应用升级指南：https://feather-purple-bdd.notion.site/docker-09e1db16b2b14040840bd2f5660e666c
+
+2022.02.23
+1. 新增豆瓣详细配置，可以根据豆瓣想看的标签，决定选择策略以及对关键字加权，这个关键字可以是字幕组、压制组、站点名（英文跟pt部分配置一样）。可以根据不同的豆瓣id，选择策略；
+2. 新增通知时增加评分显示，来自谁的豆瓣昵称下载；
+3. 新增fanart API，下载完成发送通知时，会优先去fanart查找电影封面图，其次TMDB，最后用豆瓣的；
+5. 优化下载电影过程，全面加速。增加查找缓存，多PT站点并行搜索；除首次运行任务外，多pt站时处理速度至少是以前版本的十倍；
+6. 优化Emby智能刷新功能的媒体库识别；
+7. 优化豆瓣多id想看时，重复电影的处理；
+8. 修复手动挡下载时，部分资源解析会出错的BUG
+
+2022.02.21
+1. sqlite操作类加锁，同时优化监控种子任务的错误处理，增强稳定性；
+2. 修复部分emby用户无法局部刷新影视库的BUG；
+3. 修复Emby在Widnows部署时部分情况无法正确识别媒体库的BUG
+4. 新增站点支持btschool、putao
+
 2022.02.20
 1. 感谢大佬 miniers 贡献代码，支持了chdbits、keepfrds
 2. 优化手动提交种子任务监测的通知友好性，对自由下载的剧集，识别集数信息；
