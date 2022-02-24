@@ -92,7 +92,7 @@ class NexusProgramSite(PTSite, metaclass=ABCMeta):
             self.cookies.update(res.cookies)
             res = self.handle_cf_check(res)
             text = res.text
-            match_page = re.search(r'<a href="(\?[^"]+page=(\d+))"><b(?:\s+title="Alt\+Pagedown")?>下一[頁页]', text)
+            match_page = re.search(r'<a.*?href="(\?[^"]+page=(\d+))"><b(?:\s+title="Alt\+Pagedown")?>下一[頁页]', text)
             page_result = self.parse_torrents(text)
             if page_result is not None and len(page_result) > 0:
                 search_result = search_result + page_result
