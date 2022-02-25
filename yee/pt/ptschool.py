@@ -32,7 +32,7 @@ class PTSchoolV2(NexusProgramSite):
         :param text: 网页源代码
         :return:
         """
-        soup = BeautifulSoup(text)
+        soup = BeautifulSoup(text, features="lxml")
         search_result = []
         for i, item in enumerate(soup.find('table', class_='mainouter').find('table', class_='torrents').findAll('tr')[1:]):
             rowfollow_tag = item.findAll('td', 'rowfollow')
