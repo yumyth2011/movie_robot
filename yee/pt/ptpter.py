@@ -36,6 +36,9 @@ class PTPTer(NexusProgramSite):
         #     r'''<td class="rowfollow.*?img.*?title="(.*?)"''',
         #     text)):
         #     search_result.append(t)
+        if not soup.find('table', class_="torrents"):
+            return []
+
         for row in soup.find('table', class_="torrents").findAll('tr', recursive=False)[1:]:
             t = Torrent()
             t.site_name = self.get_site_name()
