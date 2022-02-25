@@ -106,4 +106,16 @@ class RequestUtils:
             except requests.exceptions.RequestException as e:
                 i += 1
                 logging.info('请求%s 失败，开始准备重试(%s/3)' % (url, i))
+                logging.info("错误信息：%s" % e)   
+    def post_json(self, url, json=None, headers=None, cookies=None, allow_redirects=True, skip_check=False):
+        i = 0
+        while i < 3:
+            try:
+                if not skip_check:
+                    self.check_request()
+                return requests.post(url, json=json, verify=False, headers=headers, cookies=cookies,
+                                     allow_redirects=allow_redirects)
+            except requests.exceptions.RequestException as e:
+                i += 1
+                logging.info('请求%s 失败，开始准备重试(%s/3)' % (url, i))
                 logging.info("错误信息：%s" % e)

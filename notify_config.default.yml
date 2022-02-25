@@ -25,3 +25,47 @@ app:
       series_completed:
         title: '${name} (${year})'
         message: '剧集 ${name}(${year})第${episodes}集下载完毕'
+  pushdeer:
+    # pushdeer 的api地址，默认是官方，可以改为自建
+    api: 'https://api2.pushdeer.com/message/push' 
+    # 默认推送pushkey,所有推送信息都会给这个pushkey推送
+    pushkey: ''
+    # 关联豆瓣人员的pushkey，通过 movies_config.yml配置的nickname来给该用户下载的视频独立推送
+    users: 
+      - nickname: 'user1'
+        pushkey: ''
+      - nickname: 'user2'
+        pushkey: ''
+    message_template:
+      movie_completed:
+        title: '${name} (${year}) 下载完毕'
+        message: | 
+          ## ${nickname} 想看的 电影 ${name}(${year})下载完毕
+          ![${name}](${cover})
+      series_completed:
+        title: '${name} (${year}) 下载完毕'
+        message: |
+          ## ${nickname} 想看的 剧集 ${name}(${year})第${episodes}集下载完毕
+          ![${name}](${cover})
+  wxpusher:
+    # wxpusher的 appToken
+    appToken: ''
+    # 默认推送的uid,所有推送信息都会给这个uid推送
+    uid: ''
+    # 关联豆瓣人员的uid，通过 movies_config.yml配置的nickname来给该用户下载的视频独立推送
+    users: 
+      - nickname: 'user1'
+        uid: ''
+      - nickname: 'user2'
+        uid: ''
+    message_template:
+      movie_completed:
+        title: '${name} (${year}) 下载完毕'
+        message: | 
+          ## ${nickname} 想看的 电影 ${name}(${year})下载完毕
+          ![${name}](${cover})
+      series_completed:
+        title: '${name} (${year}) 下载完毕'
+        message: |
+          ## ${nickname} 想看的 剧集 ${name}(${year})第${episodes}集下载完毕
+          ![${name}](${cover})
