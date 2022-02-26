@@ -26,7 +26,7 @@ class BarkNotify(Notify):
         context.setdefault('nickname', None)
         push_url = []
         if 'push_url' in self.args.keys():
-            push_url.append(self.args['push_url'])
+            push_url = push_url + self.args['push_url']
         users = self.args.get('users')
         if users is not None and len(users) > 0:
             for user in users:
