@@ -76,7 +76,7 @@ class PTPTer(NexusProgramSite):
                         else:
                             t.free_deadline = datetime.datetime.max
                     subject = info.select_one('div div[style="margin-top: 4px;"] span')
-                    t.subject = subject.string if subject else ''
+                    t.subject = str(subject.string) if subject else ''
                     t.url = self.get_site() + '/download.php?id=' + t.id
                 elif i == 3:
                     t.publish_time = datetime.datetime.strptime(item.select_one('span[title]')['title'], '%Y-%m-%d %H:%M:%S')
