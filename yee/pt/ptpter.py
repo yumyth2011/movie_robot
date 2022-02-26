@@ -81,7 +81,11 @@ class PTPTer(NexusProgramSite):
                 elif i == 3:
                     t.publish_time = datetime.datetime.strptime(item.select_one('span[title]')['title'], '%Y-%m-%d %H:%M:%S')
                 elif i == 4:
-                    t.file_size = PTSiteParser.trans_unit_to_mb(float(item.contents[0]), item.contents[2])
+                    raw_re = re.findall('(.*)(TB|GB|MB|KB)', item.text)
+                    if raw_re and raw_re[0] and raw_re[0][0] and raw_re[0][1]:
+                        t.file_size = PTSiteParser.trans_unit_to_mb(float(raw_re[0][0]), raw_re[0][1])
+                    else:
+                        t.file_size = 0
                 elif i == 5:
                     red = item.select_one('span[class="red"]') or item.select_one('font[color]')
                     if red:
