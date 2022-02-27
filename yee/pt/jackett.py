@@ -6,7 +6,6 @@ import zipfile
 import time
 import cgi
 
-from abc import ABCMeta
 from urllib.parse import unquote
 
 from yee.core.httputils import RequestUtils
@@ -14,7 +13,7 @@ from yee.core.stringutils import StringUtils
 from yee.core.torrentmodels import Torrents, FileTorrent, Torrent, TorrentType
 
 
-class Jackett(metaclass=ABCMeta):
+class Jackett():
     headers = {
         'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36'
     }
