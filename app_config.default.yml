@@ -51,6 +51,9 @@ pt:
   keepfrds:
     type: 'cookie'
     cookie: ''
+  jackett:
+    address: 'http://192.168.1.10:9117'
+    api_key: '111'
 sources:
   #目前仅支持douban_wish，这里不需要改动
   - type: 'douban_wish'
