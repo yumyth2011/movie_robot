@@ -60,6 +60,11 @@ pt:
   pterclub:
     type: 'cookie'
     cookie: ''
+  jackett:
+    # 自己搭建的 jackett 访问地址
+    address: 'http://192.168.1.10:9117'
+    # jackett 管理后台顶部获取api_key
+    api_key: '111'
 sources:
   #目前仅支持douban_wish，这里不需要改动
   - type: 'douban_wish'
