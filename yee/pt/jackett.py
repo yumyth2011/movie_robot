@@ -7,7 +7,7 @@ import time
 import cgi
 
 from abc import ABCMeta
-from urllib.parse import urlparse, unquote
+from urllib.parse import unquote
 
 from yee.core.httputils import RequestUtils
 from yee.core.stringutils import StringUtils
@@ -65,7 +65,7 @@ class Jackett(metaclass=ABCMeta):
         search_result = []
         for r in result:
             t = Torrent()
-            t.site_name = self.get_site_name() + '_' + r['Tracker']
+            t.site_name = self.get_site_name()
             t.site = self.get_site()
             types = StringUtils.split(r['CategoryDesc'],'/')
             t.primitive_type = types[0]
