@@ -28,7 +28,8 @@ class PTOurbits(NexusProgramSite):
         if text is None or text.strip() == '':
             return None
         soup = BeautifulSoup(text, features="lxml")
-        match_login_user = soup.select('a[class="ExtremeUser_Name"]')[0].get_text()
+        match_login_user = soup.select('table[id="info_block"] tr td table tr td span a b')[0].get_text()
+        print("user: %s" % match_login_user)
         if match_login_user:
             return StringUtils.trimhtml(match_login_user)
         else:
@@ -74,7 +75,6 @@ class PTOurbits(NexusProgramSite):
                     info = item.select('table tr td.embedded')[0]
                     a = info.select_one('a[title]')
                     t.name = a['title']
-                    print(t.name)
                     t.id = re.findall('id=(\d+)', a['href'])[0]
                     if info.select_one('a[title]'):
                         deadline = info.select_one('a[title] ~ b span[title]')
@@ -82,7 +82,7 @@ class PTOurbits(NexusProgramSite):
                             t.free_deadline = datetime.datetime.strptime(deadline['title'], '%Y-%m-%d %H:%M:%S')
                         else:
                             t.free_deadline = datetime.datetime.max
-                    subject = item.contents[-1]
+                    subject = info.contents[-1]
                     t.subject = subject.string if subject else ''
                     t.url = self.get_site() + '/download.php?id=' + t.id
                 elif i == 3:
