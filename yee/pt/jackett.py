@@ -2,19 +2,19 @@ import datetime
 import io
 import logging
 import os
+import re
 import zipfile
 import time
 import cgi
 
-from abc import ABCMeta
-from urllib.parse import urlparse, unquote
+from urllib.parse import unquote
 
 from yee.core.httputils import RequestUtils
 from yee.core.stringutils import StringUtils
 from yee.core.torrentmodels import Torrents, FileTorrent, Torrent, TorrentType
 
 
-class Jackett(metaclass=ABCMeta):
+class Jackett():
     headers = {
         'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36'
     }
@@ -65,7 +65,7 @@ class Jackett(metaclass=ABCMeta):
         search_result = []
         for r in result:
             t = Torrent()
-            t.site_name = self.get_site_name() + '_' + r['Tracker']
+            t.site_name = self.get_site_name()
             t.site = self.get_site()
             types = StringUtils.split(r['CategoryDesc'],'/')
             t.primitive_type = types[0]
@@ -85,7 +85,11 @@ class Jackett(metaclass=ABCMeta):
             t.subject = r['Description']
             t.url = r['Link']
             # t.movies_release_year = mp.parse_year_by_str_list([t.name, t.subject])
-            t.id = r['Guid']
+            id_match = re.findall(r'id=(\d+)',r['Guid'])
+            if id_match is not None and len(id_match) > 0:
+                t.id = id_match[0]
+            else:
+                t.id = int(time.time())
             t.upload_count = r['Seeders']
             t.download_count = r['Grabs']
             t.red_seed = r['Seeders'] == 0
