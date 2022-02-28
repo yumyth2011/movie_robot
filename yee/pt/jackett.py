@@ -16,6 +16,12 @@ from yee.pt.ptsite import PTSite
 
 
 class Jackett(PTSite):
+    def login(self, username: str, password: str):
+        pass
+
+    def login_by_cookie(self, cookie: str):
+        pass
+
     headers = {
         'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36'
     }
