@@ -5,13 +5,16 @@ import re
 import datetime
 from urllib.parse import unquote
 from bs4 import BeautifulSoup
+from urllib.parse import urlparse
+import logging
 
 from yee.pt.nexusprogramsite import NexusProgramSite
 from yee.core.torrentmodels import Torrents, TorrentType, Torrent
 from yee.pt.ptsiteparser import PTSiteParser
+from yee.core.stringutils import StringUtils
 
 
-class PTSchoolV2(NexusProgramSite):
+class PTtime(NexusProgramSite):
     def get_site(self):
         """
         返回pt站的网址
@@ -24,7 +27,35 @@ class PTSchoolV2(NexusProgramSite):
         这是pt网站的名称，确保唯一即可，集成到主程序时用作配置项
         :return:
         """
-        return 'pttime'
+        return 'PTtime'
+
+    def match_user(self, text):
+        if text is None or text.strip() == '':
+            return None
+        # match_login_user = re.search(r'class=[\'"][^\'"]+[\'"]>(?:<a.+>)<b>(.+)</b>.*</a>.*</span>', text)
+        match_login_user = re.search(r'class=[\'"][^\'"]+[\'"]><b>(.+)</b>.*</a>', text)
+        if match_login_user:
+            return StringUtils.trimhtml(match_login_user.group(1))
+        else:
+            return None
+
+    def login_by_cookie(self, cookie: str):
+        parsed = urlparse(self.get_site())
+        cookie_jar = self.req.cookiestr_to_jar(cookie, parsed.hostname)
+        res = self.req.get(
+            url=self.get_site(),
+            headers=self.headers,
+            cookies=cookie_jar,
+            skip_check=True
+        )
+        self.cookies = cookie_jar
+        if res is None:
+            raise RuntimeError('%s登陆失败。' % self.get_site_name())
+        res = self.handle_cf_check(res)
+        user = self.match_user(res.text)
+        if user is None:
+            raise RuntimeError('%s登陆失败：没有获取到用户。' % self.get_site_name())
+        logging.info('%s登陆成功，欢迎回来：%s' % (parsed.hostname, StringUtils.noisestr(user)))
 
     def parse_torrents(self, text: str) -> Torrents:
         """
@@ -34,6 +65,8 @@ class PTSchoolV2(NexusProgramSite):
         """
         soup = BeautifulSoup(text, features="lxml")
         search_result = []
+        if not soup.find('table', class_='torrents'):
+            return []
         for i, item in enumerate(soup.find('table', class_='mainouter mt5').find('table', class_='torrents').findAll('tr')[1:]):
             rowfollow_tag = item.findAll('td', 'rowfollow')
             if len(rowfollow_tag) != 0:
@@ -62,10 +95,10 @@ class PTSchoolV2(NexusProgramSite):
                     t.cate = '动漫'
                 elif t.primitive_type == 'Sex(骑兵/有码)':
                     t.type = TorrentType.AV
-                    t.cate = TorrentType.value
+                    t.cate = TorrentType.AV.value
                 elif t.primitive_type == 'AV(步兵/无码)':
                     t.type = TorrentType.AV
-                    t.cate = TorrentType.value
+                    t.cate = TorrentType.AV.value
                 else:
                     t.type = TorrentType.Other
                     t.cate = TorrentType.Other.value
@@ -76,12 +109,13 @@ class PTSchoolV2(NexusProgramSite):
                 t.name = a_label.get('title')
                 t.url = self.get_site() + '/' + 'download.php?id=' + t_id
                 # 获取object
-                if "Free" in rowfollow_tag[1].findAll('font')[0].get_text():
+                if rowfollow_tag[1].find('font', class_='promotion free'):
                     t_free_deadline = re.findall('<span title="([^"]+)"', str(rowfollow_tag[1]))
                     if len(t_free_deadline) == 0:
                         t.free_deadline = datetime.datetime.max
                     else:
                         t.free_deadline = datetime.datetime.strptime(t_free_deadline[0], '%Y-%m-%d %H:%M:%S')
+
                 object_tag = copy.copy(rowfollow_tag[1])
                 [s.extract() for s in rowfollow_tag[1].find_all("a")]
                 [s.extract() for s in rowfollow_tag[1].find_all("b")]
@@ -93,16 +127,16 @@ class PTSchoolV2(NexusProgramSite):
                     subject = object_tag.find('b').text
                 t.subject = subject
                 # 获取种子发布时间
-                t.publish_time = datetime.datetime.strptime(rowfollow_tag[3].find('span').get('title'), '%Y-%m-%d %H:%M:%S')
+                t.publish_time = datetime.datetime.strptime(rowfollow_tag[4].find('span').get('title'), '%Y-%m-%d %H:%M:%S')
                 # 获取文件大小
-                t_file_size_re = re.findall('([1-9]\d*\.?\d*)(TiB|GiB|MiB|KiB|TB|GB|MB|KB)', rowfollow_tag[4].text)
+                t_file_size_re = re.findall('([1-9]\d*\.?\d*)(TiB|GiB|MiB|KiB|TB|GB|MB|KB)', rowfollow_tag[5].text)
                 t.file_size = PTSiteParser.trans_unit_to_mb(float(t_file_size_re[0][0]), t_file_size_re[0][1])
                 # 做种人数
-                t.upload_count = int(rowfollow_tag[5].text.replace(',', ''))
-                if rowfollow_tag[5].find('span') is not None or rowfollow_tag[5].find('font') is not None:
+                t.upload_count = int(rowfollow_tag[6].text.replace(',', ''))
+                if rowfollow_tag[6].find('span') is not None or rowfollow_tag[6].find('font') is not None:
                     t.red_seed = True
                 # 下载人数
-                t.download_count = int(rowfollow_tag[6].text.replace(',', ''))
+                t.download_count = int(rowfollow_tag[7].text.replace(',', ''))
                 search_result.append(t)
         return search_result
 
