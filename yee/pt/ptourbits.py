@@ -7,7 +7,7 @@ from bs4 import BeautifulSoup
 from yee.core.torrentmodels import Torrents, TorrentType, Torrent
 from yee.pt.nexusprogramsite import NexusProgramSite
 from yee.pt.ptsiteparser import PTSiteParser
-
+from yee.core.stringutils import StringUtils
 
 class PTOurbits(NexusProgramSite):
     def get_site(self):
@@ -24,6 +24,16 @@ class PTOurbits(NexusProgramSite):
         """
         return 'ourbits'
 
+    def match_user(self, text):
+        if text is None or text.strip() == '':
+            return None
+        soup = BeautifulSoup(text, features="lxml")
+        match_login_user = soup.select('a[class="ExtremeUser_Name"]')[0].get_text()
+        if match_login_user:
+            return StringUtils.trimhtml(match_login_user)
+        else:
+            return None
+
     def parse_torrents(self, text: str) -> Torrents:
         """
         通过返回的网页代码，解析列表页种子的所有信息
@@ -32,10 +42,6 @@ class PTOurbits(NexusProgramSite):
         """
         soup = BeautifulSoup(text, features="lxml")
         search_result = []
-        # for i, r in enumerate(re.findall(
-        #     r'''<td class="rowfollow.*?img.*?title="(.*?)"''',
-        #     text)):
-        #     search_result.append(t)
         if not soup.find('table', class_="torrents"):
             return []
 
@@ -76,7 +82,7 @@ class PTOurbits(NexusProgramSite):
                             t.free_deadline = datetime.datetime.strptime(deadline['title'], '%Y-%m-%d %H:%M:%S')
                         else:
                             t.free_deadline = datetime.datetime.max
-                    subject = item.contents[0]
+                    subject = item.contents[-1]
                     t.subject = subject.string if subject else ''
                     t.url = self.get_site() + '/download.php?id=' + t.id
                 elif i == 3:
