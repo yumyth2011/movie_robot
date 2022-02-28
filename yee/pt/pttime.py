@@ -39,23 +39,6 @@ class PTtime(NexusProgramSite):
         else:
             return None
 
-    def login_by_cookie(self, cookie: str):
-        parsed = urlparse(self.get_site())
-        cookie_jar = self.req.cookiestr_to_jar(cookie, parsed.hostname)
-        res = self.req.get(
-            url=self.get_site(),
-            headers=self.headers,
-            cookies=cookie_jar,
-            skip_check=True
-        )
-        self.cookies = cookie_jar
-        if res is None:
-            raise RuntimeError('%s登陆失败。' % self.get_site_name())
-        res = self.handle_cf_check(res)
-        user = self.match_user(res.text)
-        if user is None:
-            raise RuntimeError('%s登陆失败：没有获取到用户。' % self.get_site_name())
-        logging.info('%s登陆成功，欢迎回来：%s' % (parsed.hostname, StringUtils.noisestr(user)))
 
     def parse_torrents(self, text: str) -> Torrents:
         """
