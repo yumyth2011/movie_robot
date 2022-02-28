@@ -34,6 +34,8 @@ class PTSchoolV2(NexusProgramSite):
         """
         soup = BeautifulSoup(text, features="lxml")
         search_result = []
+        if not soup.find('table', class_='torrents'):
+            return []
         for i, item in enumerate(soup.find('table', class_='mainouter').find('table', class_='torrents').findAll('tr')[1:]):
             rowfollow_tag = item.findAll('td', 'rowfollow')
             if len(rowfollow_tag) != 0:
@@ -70,7 +72,7 @@ class PTSchoolV2(NexusProgramSite):
                 t.name = a_label.get('title')
                 t.url = self.get_site() + '/' + 'download.php?id=' + t_id
                 # 获取object
-                if "Free" in rowfollow_tag[1].findAll('img')[0].get('alt'):
+                if "Free" in rowfollow_tag[1].findAll('img')[1].get('alt'):
                     t_free_deadline = re.findall('剩余时间：<span title="([^"]+)"', str(rowfollow_tag[1]))
                     if len(t_free_deadline) == 0:
                         t.free_deadline = datetime.datetime.max
@@ -98,7 +100,7 @@ class PTSchoolV2(NexusProgramSite):
                 # 下载人数
                 t.download_count = int(rowfollow_tag[6].text.replace(',', ''))
                 search_result.append(t)
-        return search_result
+            return search_result
 
     def parse_download_filename(self, response):
         if 'Content-Disposition' not in response.headers:
