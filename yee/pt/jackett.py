@@ -101,7 +101,10 @@ class Jackett(PTSite):
             t.upload_count = r['Seeders']
             t.download_count = r['Grabs']
             t.red_seed = r['Seeders'] == 0
-            t.publish_time = datetime.datetime.strptime(r['PublishDate'], '%Y-%m-%dT%H:%M:%S')
+            try:
+                t.publish_time = datetime.datetime.strptime(r['PublishDate'], '%Y-%m-%dT%H:%M:%S')
+            except Exception as e:
+                logging.error('未识别jackett时间格式：%s' % r['PublishDate'])
             t.file_size = round(r['Size'] / 1024 / 1024, 2)
             if r['DownloadVolumeFactor'] == 0:
                 t.free_deadline = datetime.datetime.max
