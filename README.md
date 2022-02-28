@@ -37,6 +37,10 @@ docker run -itd --restart=always --name=movie-robot -v /volume1/docker_stable/mo
 # 更新日志
 ## 如何保持机器人是最新版本
 Docker应用升级指南：https://feather-purple-bdd.notion.site/docker-09e1db16b2b14040840bd2f5660e666c
+2022.02.27
+1. 馒头恢复正常，去掉浏览器内核，发布0.1正式版
+2. 修复btschool的BUG
+3. 所有通知渠道支持多用户。
 
 2022.02.26
 1. 馒头这两天抽风，每次搜索都会出Cloudflare 5秒盾验证，新版的机器人增加了浏览器内核，可以模拟人工验证，修复了这个问题，支持自动跳过所有PT站的5秒盾验证。
