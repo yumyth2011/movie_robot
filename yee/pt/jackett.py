@@ -12,9 +12,10 @@ from urllib.parse import unquote
 from yee.core.httputils import RequestUtils
 from yee.core.stringutils import StringUtils
 from yee.core.torrentmodels import Torrents, FileTorrent, Torrent, TorrentType
+from yee.pt.ptsite import PTSite
 
 
-class Jackett():
+class Jackett(PTSite):
     headers = {
         'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36'
     }
@@ -24,6 +25,7 @@ class Jackett():
         self.kwargs = kwargs
         if kwargs['address'] is None or kwargs['api_key'] is None:
             raise RuntimeError('必须指定jackett的服务地址和api_key，缺一不可')
+
     def get_site(self):
         """
         返回pt站的网址
@@ -44,7 +46,7 @@ class Jackett():
     def search_torrent(self, keyword, result_page_limit=5, use_imdb_search: bool = False) -> Torrents:
         return self.automatic_page_loading(
             '%s/api/v2.0/indexers/all/results?apikey=%s&Query=%s&_=%s' % (
-                 self.get_site(), self.kwargs['api_key'], keyword, int(time.time()))
+                self.get_site(), self.kwargs['api_key'], keyword, int(time.time()))
         )
 
     def automatic_page_loading(self, url) -> Torrents:
@@ -57,7 +59,7 @@ class Jackett():
         if res is None:
             return search_result
         result = res.json()
-        if 'Results' in result.keys() and len(result['Results']) >0:
+        if 'Results' in result.keys() and len(result['Results']) > 0:
             search_result = self.parse_torrents(result['Results'])
         return search_result
 
@@ -67,7 +69,7 @@ class Jackett():
             t = Torrent()
             t.site_name = self.get_site_name()
             t.site = self.get_site()
-            types = StringUtils.split(r['CategoryDesc'],'/')
+            types = StringUtils.split(r['CategoryDesc'], '/')
             t.primitive_type = types[0]
             if t.primitive_type == 'Movies':
                 t.type = TorrentType.Movie
@@ -85,7 +87,7 @@ class Jackett():
             t.subject = r['Description']
             t.url = r['Link']
             # t.movies_release_year = mp.parse_year_by_str_list([t.name, t.subject])
-            id_match = re.findall(r'id=(\d+)',r['Guid'])
+            id_match = re.findall(r'id=(\d+)', r['Guid'])
             if id_match is not None and len(id_match) > 0:
                 t.id = id_match[0]
             else:
