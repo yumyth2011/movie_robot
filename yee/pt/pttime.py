@@ -29,6 +29,17 @@ class PTtime(NexusProgramSite):
         """
         return 'PTtime'
 
+    def match_user(self, text):
+        if text is None or text.strip() == '':
+            return None
+        # match_login_user = re.search(r'class=[\'"][^\'"]+[\'"]>(?:<a.+>)<b>(.+)</b>.*</a>.*</span>', text)
+        match_login_user = re.search(r'class=[\'"][^\'"]+[\'"]><b>(.+)</b>.*</a>', text)
+        if match_login_user:
+            return StringUtils.trimhtml(match_login_user.group(1))
+        else:
+            return None
+
+
     def parse_torrents(self, text: str) -> Torrents:
         """
         通过返回的网页代码，解析列表页种子的所有信息
