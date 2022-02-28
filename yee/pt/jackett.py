@@ -2,6 +2,7 @@ import datetime
 import io
 import logging
 import os
+import re
 import zipfile
 import time
 import cgi
@@ -84,7 +85,11 @@ class Jackett():
             t.subject = r['Description']
             t.url = r['Link']
             # t.movies_release_year = mp.parse_year_by_str_list([t.name, t.subject])
-            t.id = r['Guid']
+            id_match = re.findall(r'id=(\d+)',r['Guid'])
+            if id_match is not None and len(id_match) > 0:
+                t.id = id_match[0]
+            else:
+                t.id = int(time.time())
             t.upload_count = r['Seeders']
             t.download_count = r['Grabs']
             t.red_seed = r['Seeders'] == 0
