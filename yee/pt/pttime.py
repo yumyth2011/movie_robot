@@ -124,8 +124,6 @@ class PTtime(NexusProgramSite):
         return search_result
 
     def parse_download_filename(self, response):
-        if 'Content-Disposition' not in response.headers:
-            print(response.headers)
-            return None
-        value, params = cgi.parse_header(unquote(response.headers['Content-Disposition']))
-        return params['filename']
+        value, params = cgi.parse_header(response.headers['Content-Disposition'])
+        filename = params['filename'].encode('ISO-8859-1').decode('utf8')
+        return filename
