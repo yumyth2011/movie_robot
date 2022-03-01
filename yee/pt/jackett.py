@@ -1,23 +1,40 @@
+import cgi
 import datetime
 import io
 import logging
 import os
 import re
-import zipfile
 import time
-import cgi
-
+import zipfile
 from urllib.parse import unquote
 
 from yee.core.httputils import RequestUtils
-from yee.core.stringutils import StringUtils
 from yee.core.torrentmodels import Torrents, FileTorrent, Torrent, TorrentType
 from yee.pt.ptsite import PTSite
 
 
 class Jackett(PTSite):
-    def login(self, username: str, password: str):
-        pass
+    def split(text, delimiter='/'):
+        if text is None or len(text) == 0:
+            return []
+        return text.split(delimiter)
+
+    def login(self):
+        try:
+            res = self.req.get(
+                url='%s/api/v2.0/indexers?apikey=%s&configured=true&_=%s' % (
+                    self.get_site(), self.kwargs['api_key'], int(time.time())),
+                headers=self.headers,
+                skip_check=True
+            ).json()
+            if len(res) > 0:
+                sites = []
+                for item in res:
+                    sites.append(item['name'])
+                logging.info('jackett: %s连接成功，已配置 %d 个站点：[%s]' % (self.get_site(), len(sites),'；'.join(sites)))
+        except Exception as e:
+                logging.error('jackett: %s连接失败，请检查 地址 和 api_key' % self.get_site())
+
 
     def login_by_cookie(self, cookie: str):
         pass
@@ -31,6 +48,8 @@ class Jackett(PTSite):
         self.kwargs = kwargs
         if kwargs['address'] is None or kwargs['api_key'] is None:
             raise RuntimeError('必须指定jackett的服务地址和api_key，缺一不可')
+        else:
+            self.login()
 
     def get_site(self):
         """
@@ -75,7 +94,7 @@ class Jackett(PTSite):
             t = Torrent()
             t.site_name = self.get_site_name()
             t.site = self.get_site()
-            types = StringUtils.split(r['CategoryDesc'], '/')
+            types = Jackett.split(r['CategoryDesc'], '/')
             t.primitive_type = types[0]
             if t.primitive_type == 'Movies':
                 t.type = TorrentType.Movie
@@ -101,8 +120,19 @@ class Jackett(PTSite):
             t.upload_count = r['Seeders']
             t.download_count = r['Grabs']
             t.red_seed = r['Seeders'] == 0
+            # t.publish_time = datetime.datetime.now()
             try:
-                t.publish_time = datetime.datetime.strptime(r['PublishDate'], '%Y-%m-%dT%H:%M:%S')
+                if r['PublishDate'] is not None:
+                    dateMatch = re.findall(
+                        r'(\d{4}-\d{2}-\d{2}).*(\d{2}:\d{2}:\d{2}).*?([\+\-]\d{2}:\d{2})?$', r['PublishDate'])
+                    if len(dateMatch) > 0:
+                        timedelta = datetime.timedelta()
+                        if dateMatch[0][2] != '':
+                            timedelta = datetime.timedelta(hours=8) - datetime.datetime.strptime(dateMatch[0][2].replace(':', ''),'%z').utcoffset()
+                        t.publish_time = datetime.datetime.strptime(
+                            dateMatch[0][0] + ' ' + dateMatch[0][1], '%Y-%m-%d %H:%M:%S') + timedelta
+                    else:
+                        logging.error('未识别jackett时间格式：%s' % r['PublishDate'])
             except Exception as e:
                 logging.error('未识别jackett时间格式：%s' % r['PublishDate'])
             t.file_size = round(r['Size'] / 1024 / 1024, 2)
