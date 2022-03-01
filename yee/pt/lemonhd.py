@@ -100,8 +100,8 @@ class LemonHD(NexusProgramSite):
                 # 做种人数
                 t.upload_count = int(rowfollow_tag[6].text.replace(',', ''))
                 # 红种
-                if t.upload_count > 1:
-                    t.red_seed = False
+                if re.findall(r'<font color="(.*?)">\d+</font>', str(rowfollow_tag[6])):
+                    t.red_seed = True
                 # 下载人数
                 t.download_count = int(rowfollow_tag[7].text.replace(',', ''))
                 search_result.append(t)
