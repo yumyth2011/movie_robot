@@ -120,7 +120,7 @@ class Jackett(PTSite):
             t.upload_count = r['Seeders']
             t.download_count = r['Grabs']
             t.red_seed = r['Seeders'] == 0
-            t.publish_time = datetime.datetime.now()
+            # t.publish_time = datetime.datetime.now()
             try:
                 if r['PublishDate'] is not None:
                     dateMatch = re.findall(
