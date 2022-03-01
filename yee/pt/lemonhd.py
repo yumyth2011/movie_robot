@@ -83,7 +83,7 @@ class LemonHD(NexusProgramSite):
                 # t.name = t.name.replace('<b>', '').replace('</b>', '')
                 t.url = self.get_site() + '/' + t_href
                 # 获取object
-                if "免费剩余" in rowfollow_tag[2].findAll('div')[3].get_text():
+                if "免费剩余" in rowfollow_tag[2].findAll('div')[2].text:
                     t_free_deadline = re.findall('<span title="([^"]+)"', str(rowfollow_tag[2]))
                     if len(t_free_deadline) == 0:
                         t.free_deadline = datetime.datetime.max
