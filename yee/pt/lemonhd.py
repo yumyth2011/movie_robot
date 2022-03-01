@@ -55,7 +55,7 @@ class LemonHD(NexusProgramSite):
                 find_imgs = rowfollow_tag[0].findAll('img')
                 # t.media_source = find_imgs[1].get('title')
                 # 获取类型
-                t.primitive_type = find_imgs[0].get('class')
+                t.primitive_type = str(find_imgs[0].get('class')[0])
                 if t.primitive_type == 'cat_movie':
                     t.type = TorrentType.Movie
                     t.cate = TorrentType.Movie.value
@@ -76,14 +76,15 @@ class LemonHD(NexusProgramSite):
                     t.cate = TorrentType.Other.value
                 # 获取 id/name/url
                 a_label = rowfollow_tag[2].find('a')
-                t_href = a_label.get('href')
                 t_id = a_label.get('href').split('=')[1]
                 t.id = int(t_id)
-                t.name = a_label.find('b').text
+                t.name = str(a_label.find('b').text)
                 # t.name = t.name.replace('<b>', '').replace('</b>', '')
-                t.url = self.get_site() + '/' + t_href
+                t.url = self.get_site() + '/' + rowfollow_tag[2].find('a',
+                                                                      href=lambda value: value and value.startswith(
+                                                                          "download")).get('href')
                 # 获取object
-                if "免费剩余" in rowfollow_tag[2].findAll('div')[3].get_text():
+                if "免费剩余" in rowfollow_tag[2].findAll('div')[2].text:
                     t_free_deadline = re.findall('<span title="([^"]+)"', str(rowfollow_tag[2]))
                     if len(t_free_deadline) == 0:
                         t.free_deadline = datetime.datetime.max
@@ -97,8 +98,8 @@ class LemonHD(NexusProgramSite):
                 [s.extract() for s in rowfollow_tag[2].find_all("span")]
                 subject = rowfollow_tag[2].text.replace('(剩余时间：)', '').strip()
                 if subject == '':
-                    subject = object_tag.find('b').text
-                t.subject = subject
+                    subject = object_tag.find_all('div')[1].text
+                t.subject = str(subject)
                 # 获取种子发布时间
                 t.publish_time = datetime.datetime.strptime(rowfollow_tag[4].find('span').get('title'),
                                                             '%Y-%m-%d %H:%M:%S')
@@ -111,7 +112,8 @@ class LemonHD(NexusProgramSite):
                 if re.findall(r'<font color="(.*?)">\d+</font>', str(rowfollow_tag[6])):
                     t.red_seed = True
                 # 下载人数
-                t.download_count = int(rowfollow_tag[7].text.replace(',', ''))
+                t.download_count = int(rowfollow_tag[8].text.replace(',', ''))
+                t.movies_release_year = MovieParser.parse_year_by_str_list([t.name, t.subject])
                 search_result.append(t)
         return search_result
 
