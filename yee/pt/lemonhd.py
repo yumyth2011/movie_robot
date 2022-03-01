@@ -26,6 +26,13 @@ class LemonHD(NexusProgramSite):
         """
         return 'LemonHD'
 
+    def search_torrent(self, keyword, result_page_limit=5, use_imdb_search: bool = False) -> Torrents:
+        return self.automatic_page_loading(
+            '%s/torrents.php?search=%s&suggest=0&search_area=%s' % (
+                self.get_site(), keyword, 'imdb' if use_imdb_search else 'name'),
+            result_page_limit
+        )
+
     def parse_torrents(self, text: str) -> Torrents:
         """
         通过返回的网页代码，解析列表页种子的所有信息
@@ -93,7 +100,8 @@ class LemonHD(NexusProgramSite):
                     subject = object_tag.find('b').text
                 t.subject = subject
                 # 获取种子发布时间
-                t.publish_time = datetime.datetime.strptime(rowfollow_tag[4].find('span').get('title'), '%Y-%m-%d %H:%M:%S')
+                t.publish_time = datetime.datetime.strptime(rowfollow_tag[4].find('span').get('title'),
+                                                            '%Y-%m-%d %H:%M:%S')
                 # 获取文件大小
                 t_file_size_re = re.findall('([1-9]\d*\.?\d*)(TiB|GiB|MiB|KiB|TB|GB|MB|KB)', rowfollow_tag[5].text)
                 t.file_size = PTSiteParser.trans_unit_to_mb(float(t_file_size_re[0][0]), t_file_size_re[0][1])
