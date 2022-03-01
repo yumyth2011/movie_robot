@@ -126,10 +126,11 @@ class Jackett(PTSite):
                     dateMatch = re.findall(
                         r'(\d{4}-\d{2}-\d{2}).*(\d{2}:\d{2}:\d{2}).*?([\+\-]\d{2}:\d{2})?$', r['PublishDate'])
                     if len(dateMatch) > 0:
-                        timezone = dateMatch[0][2] if dateMatch[0][2] != '' else '+08:00'
-                        timezone = timezone.replace(':', '')
+                        timedelta = datetime.timedelta()
+                        if dateMatch[0][2] != '':
+                            timedelta = datetime.timedelta(hours=8) - datetime.datetime.strptime(dateMatch[0][2].replace(':', ''),'%z').utcoffset()
                         t.publish_time = datetime.datetime.strptime(
-                            dateMatch[0][0] + ' ' + dateMatch[0][1] + timezone, '%Y-%m-%d %H:%M:%S%z')
+                            dateMatch[0][0] + ' ' + dateMatch[0][1], '%Y-%m-%d %H:%M:%S') + timedelta
                     else:
                         logging.error('未识别jackett时间格式：%s' % r['PublishDate'])
             except Exception as e:
