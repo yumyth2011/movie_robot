@@ -22,7 +22,7 @@ class PTPTHome(NexusProgramSite):
         这是pt网站的名称，确保唯一即可，集成到主程序时用作配置项
         :return:
         """
-        return 'pter'
+        return 'PTHome'
 
     def parse_torrents(self, text: str) -> Torrents:
         """
