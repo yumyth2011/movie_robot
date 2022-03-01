@@ -72,7 +72,7 @@ class LemonHD(NexusProgramSite):
                 t_href = a_label.get('href')
                 t_id = a_label.get('href').split('=')[1]
                 t.id = int(t_id)
-                t.name = a_label.find('b')
+                t.name = a_label.find('b').text
                 # t.name = t.name.replace('<b>', '').replace('</b>', '')
                 t.url = self.get_site() + '/' + t_href
                 # 获取object
@@ -100,16 +100,21 @@ class LemonHD(NexusProgramSite):
                 # 做种人数
                 t.upload_count = int(rowfollow_tag[6].text.replace(',', ''))
                 # 红种
-                if t.upload_count:
+                if t.upload_count > 1:
                     t.red_seed = False
                 # 下载人数
                 t.download_count = int(rowfollow_tag[7].text.replace(',', ''))
                 search_result.append(t)
         return search_result
 
+    # def parse_download_filename(self, response):
+    #     if 'Content-Disposition' not in response.headers:
+    #         print(response.headers)
+    #         return None
+    #     value, params = cgi.parse_header(unquote(response.headers['Content-Disposition']))
+    #     return params['filename']
+
     def parse_download_filename(self, response):
-        if 'Content-Disposition' not in response.headers:
-            print(response.headers)
-            return None
-        value, params = cgi.parse_header(unquote(response.headers['Content-Disposition']))
-        return params['filename']
+        value, params = cgi.parse_header(response.headers['Content-Disposition'])
+        filename = params['filename'].encode('ISO-8859-1').decode('utf8')
+        return filename
