@@ -30,6 +30,7 @@ https://registry.hub.docker.com/r/yipengfei/movie-robot/
 # 更新日志
 ## 如何保持机器人是最新版本
 Docker应用升级指南：https://feather-purple-bdd.notion.site/docker-09e1db16b2b14040840bd2f5660e666c
+
 2022.03.04
 1. 新增Web API系统，支持并行聚合多站搜索，按关键字或豆瓣id
 2. 利用API能力，新增微信搜索功能，可以在企业微信的应用设置消息接收，直接发送关键字搜索，搜索后经过机器人多策略排序后，点击直接下载
